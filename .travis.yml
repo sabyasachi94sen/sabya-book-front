@@ -3,7 +3,19 @@ services:
   - docker
 
 before_install:
-  - docker build -t sb-book-front -f Dockerfile .
+  - docker build -t sb-book-front -f Dockerfile.dev .
 
 script: 
   - docker run sb-book-front npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-south-1"
+  app: "abc"
+  env: "Abc-env"
+  bucket_name: "elasticbeanstalk-ap-south-1-036295041873"
+  bucket_path: "abc"
+  on:
+   branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
